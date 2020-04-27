@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Create A Team Member</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+<body>
+<div class="container">
+<div class="form-label">
+<div class="label-for-form"><p>
+Create a new team member</p>
+<p id="small-label-for-form">After creating a team member you will be able to assign them to manage projects and oversee tasks</p>
+</div>
+	<fieldset>
+		<form 
+			class="form-body"
+			th:object="${newTeamMember}" 
+			th:action="@{/updateTeamMember/{id}(id=${newTeamMember.id})}" 
+			method=POST
+			autocomplete="off">
+				<input id="team-member-name" name="firstName" size="20" th:field="*{firstName}" placeholder="First name"><br />
+				<input id="team-member-name" name="lastName" size="20" th:field="*{lastName}" placeholder="Last name"><br />
+				<input id="team-member-email" name="email" size="20" th:field="*{email}" placeholder="Email"><br />
+				
+				
+				<div class="links">		
+				<a class="cancel-link" href="../viewAllProjects">Cancel</a>
+				<input class="submit-form" name="Submit" type="submit" value="Submit" />
+				</div>
+		</form>
+		
+	</fieldset>
+</div>
+</div>
+
+</body>
+</html>

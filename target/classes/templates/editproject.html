@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Edit A Project</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+<body>
+<div class="container">
+<div class="form-label">
+<div class="label-for-form"><p>
+Edit an existing project</p>
+<p id="small-label-for-form">Start by creating a project then you will be able to add tasks and adding people to your team</p>
+</div>
+	<fieldset>
+		<form 
+			class="form-body"
+			th:object="${newProject}" 
+			th:action="@{/newproject/{projectId}(projectId=${newProject.projectId})}" 
+			method=POST
+			autocomplete="off">
+				<input id="project-name" name="name" size="20" th:field="*{name}" placeholder="Project name"><br />
+				<label for="description">Description</label>
+				<input name="description" size="20" th:field="*{description}" placeholder="e.g. app for managing progress on projects"><br />
+				<label for="dateTarget">Target date</label>
+				<input id="dateTarget"
+				type="date" name="dateTarget" value="test"
+				size="20" th:field="*{dateTarget}" 
+				onchange="document.getElementById('dateTarget').style.color='#333'" ><br/>
+				<label for="teamManager">Project Manager</label>
+				<select id="teamManager" th:field="*{teamManager}" required>
+				
+				 	<option value="" selected disabled hidden=true>Pick who will manage your project</option>
+				 	
+					<option th:each="currentManager: ${teamManagers}" 
+						th:value="${currentManager.id}"
+						th:text="${currentManager.id} + ${currentManager.firstName} + ${currentManager.LastName}">
+					</option>
+					
+				</select>
+				
+				<div class="links">		
+				<a class="cancel-link" href="../projects">Cancel</a>
+				<input class="submit-form" name="Submit" type="submit" value="Submit" />
+				</div>
+		</form>
+		
+	</fieldset>
+</div>
+</div>
+
+</body>
+</html>

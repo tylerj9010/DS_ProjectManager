@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Spring Application- Results</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<fieldset>
+	<form>
+		<table>
+		<tr th:each="currentTeamMember: ${teamMembers}">
+			<td th:text="${currentTeamMember.id}" />
+			<td th:text="${currentTeamMember.firstName}" />
+			<td th:text="${currentTeamMember.lastName}" />
+			<td th:text="${currentTeamMember.email}" />
+			<td><a th:href="@{/editTeamMember/{id}(id=${currentTeamMember.id})}">Edit</a></td>
+			<td><a th:href="@{/deleteTeamMember/{id}(id=${currentTeamMember.id})}">Delete</a></td>
+			</tr>
+		</table>
+	</form>
+</fieldset>
+<a href="../inputTeamMember">Add a new Team Member</a>
+
+</body>
+</html>

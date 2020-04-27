@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Spring Application- Results</title>
+<link rel="stylesheet" href="/css/dashboard-style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/js/src/nav-script.js"></script>  
+</head>
+<body>
+	<div class="container">
+		<div id="side-bar" class="side-bar">
+			<div th:object="${project}" class="projects">
+			<a href="javascript:void(0)" id="close-nav" onclick="closeNav()">&times;</a>
+				<p>Projects</p>
+				<a id="new-project" href="/newproject">Create new project</a>
+				<a id="edit-project" th:href="@{/editproject/{id}(id=${project.projectId})}">Edit current project</a>
+				<a id="delete-project" th:href="@{/deleteproject/{id}(id=${project.projectId})}">Delete current project</a>
+				
+				<form action="">
+					<input class="search-bar search-bar-dark" type="text" placeholder="Search.." size=12 name="search">      		
+				</form>
+				<div th:each="currentProject: ${projects}">
+					<a id="project-list" th:text="${currentProject.name}" th:href="@{/project/{id}(id=${currentProject.projectId})}"></a>
+				</div>
+			</div>
+			
+		</div>
+		<div th:object="${project}" class="main-view">
+			<div class="top-view">
+				<div class="project-header">
+					
+					<div class="project-info">
+						<div class= "project-info-left">
+							<p onclick="openNav()" id="project-name" th:text="${project.name}">Project Name</p>
+							<p id="project-manager" th:text="'Managed by: ' + ${project.teamManager.firstName} +
+								' ' + ${project.teamManager.lastName}">Managed By: </p>
+							<p id="project-desc" th:text="${project.description}">Project Description</p>
+						</div>
+						<div class= "project-info-right">
+							<p id="project-date" th:text="'Project Due Date: ' + ${#dates.format(project.dateTarget, 'MMM-dd-yy')}">Project Due Date:</p>
+						</div>
+					</div>
+					
+					
+					<div class="top-bar" >
+						<div class="top-bar-actions">
+							<form th:object=${project} th:action="@{/project/{id}/newtask(id=${project.projectId})}">
+							
+								<input id="buttons" type="submit" value="New Task" >
+							</form>
+							<form action="@{/project/{projectId}/searchtask/(projectId=${newProject.projectId})}">
+								<input class="search-bar" type="text" placeholder="Search.." name="search">
+				      		</form>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="project-tasks">
+				<div class="task-table">
+					<table>
+					<colgroup>
+						<col id="col-one" span="3">
+						<col id="col-two" span="1">
+				    	<col id="col-three" span="1">
+				    	<col id="col-four" span="1">
+				    	<col id="col-five" span="1">
+					</colgroup>
+					<thead>
+						<tr>
+							<th >To Do</th>
+							<th>Finished</th>
+							<th>Owner</th>
+							<th>Due</th>
+							<th>Priority</th>
+						</tr>
+					</thead>
+						<tbody>
+						<tr id="t-row" th:each="currentTask: ${tasks}">
+							<td class="table-name" th:text="${currentTask.name}">to do</td>
+							<td id="to-do">To Do</td>
+							<td th:text="${currentTask.teamMember.firstName} + ' ' + ${currentTask.teamMember.lastName}">to do</td>
+							<td id="to-do" th:text="${#dates.format(currentTask.targetDate, 'MMM-dd-yy')}">April 28th</td>
+							<td th:text="${currentTask.priority}">priority</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr>
+							<th>Finished</th>
+							<th>Finished</th>
+							<th>Owner</th>
+							<th>Due</th>
+							<th>Priority</th>
+						</tr>
+					</thead>
+					
+					</table>
+				</div>
+			</div>
+		
+			
+		</div>
+	</div>
+	
+
+<!-- 
+					<div class="task-top">
+						<div class="task-left">
+							<span>To Do</span>
+						</div>
+						<div class="task-right">
+							<span id="task-due">Due Date</span>
+							<span id="task-priority">Priority</span>
+						</div>
+					</div>
+					<div th:each="currentTask: ${tasks}">
+						<div class="task-bottom">
+						<div class="task-left">
+							<span th:text="${currentTask.name}">To Do</span>
+						</div>
+						<div class="task-right">
+							<span id="task-due">Due Date</span>
+							<span id="task-priority">Priority</span>
+						</div>
+						</div>
+					</div>
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+	<form>
+		<table>
+		<tr>
+			<th>Name</th>
+			
+			<th>Due Date</th>
+			
+		</tr>
+		<tr th:each="currentProject: ${projects}">
+			
+			<td th:text="${currentProject.name}" />
+			
+			<td th:text="${currentProject.dateTarget}" />
+			
+			<td><a th:href="@{/editproject/{id}(id=${currentProject.projectId})}">Edit</a></td>
+			<td><a th:href="@{/deleteproject/{id}(id=${currentProject.projectId})}">Delete</a></td>
+			<td><a th:href="@{/projects/{id}/newtask(id=${currentProject.projectId})}">Add Task</a></td>
+			
+			</tr>
+		</table>
+	</form>
+
+<a href="../newproject">Add a new Project</a> -->
+
+</body>
+</html>
