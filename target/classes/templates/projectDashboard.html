@@ -11,7 +11,8 @@
 	<div class="container">
 		<div id="side-bar" class="side-bar">
 			<div th:object="${project}" class="projects">
-			<a href="javascript:void(0)" id="close-nav" onclick="closeNav()">&times;</a>
+			<!--Didn't have time to fully implement 
+			<a href="javascript:void(0)" id="close-nav" onclick="closeNav()">&times;</a>-->
 				<p>Projects</p>
 				<a id="new-project" href="/newproject">Create new project</a>
 				<a id="edit-project" th:href="@{/editproject/{id}(id=${project.projectId})}">Edit current project</a>
@@ -69,11 +70,11 @@
 					</colgroup>
 					<thead>
 						<tr>
-							<th >To Do</th>
-							<th>Finished</th>
-							<th>Owner</th>
-							<th>Due</th>
-							<th>Priority</th>
+							<th><a th:href="@{/project/{id}/sort/name(id=${project.projectId})}"> To Do </a></th>
+							<th> Finished </th>
+							<th><a th:href="@{/project/{id}/sort/owner(id=${project.projectId})}"> Owner </a></th>
+							<th><a th:href="@{/project/{id}/sort/duedate(id=${project.projectId})}"> Due </a></th>
+							<th><a th:href="@{/project/{id}/sort/priority(id=${project.projectId})}"> Priority </a></th>
 						</tr>
 					</thead>
 						<tbody>
@@ -102,71 +103,6 @@
 			
 		</div>
 	</div>
-	
-
-<!-- 
-					<div class="task-top">
-						<div class="task-left">
-							<span>To Do</span>
-						</div>
-						<div class="task-right">
-							<span id="task-due">Due Date</span>
-							<span id="task-priority">Priority</span>
-						</div>
-					</div>
-					<div th:each="currentTask: ${tasks}">
-						<div class="task-bottom">
-						<div class="task-left">
-							<span th:text="${currentTask.name}">To Do</span>
-						</div>
-						<div class="task-right">
-							<span id="task-due">Due Date</span>
-							<span id="task-priority">Priority</span>
-						</div>
-						</div>
-					</div>
-
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-	<form>
-		<table>
-		<tr>
-			<th>Name</th>
-			
-			<th>Due Date</th>
-			
-		</tr>
-		<tr th:each="currentProject: ${projects}">
-			
-			<td th:text="${currentProject.name}" />
-			
-			<td th:text="${currentProject.dateTarget}" />
-			
-			<td><a th:href="@{/editproject/{id}(id=${currentProject.projectId})}">Edit</a></td>
-			<td><a th:href="@{/deleteproject/{id}(id=${currentProject.projectId})}">Delete</a></td>
-			<td><a th:href="@{/projects/{id}/newtask(id=${currentProject.projectId})}">Add Task</a></td>
-			
-			</tr>
-		</table>
-	</form>
-
-<a href="../newproject">Add a new Project</a> -->
 
 </body>
 </html>

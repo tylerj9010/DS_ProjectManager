@@ -8,11 +8,23 @@ import com.tylerejohnson.datastructures.Pair;
 
 public class HeapSort<Key extends Comparable<Key>, Value> extends Heap<Key, Value>{
 
-	public List<Value> sort(List<Pair<Key, Value>> list) {
+	public List<Value> sortAscending(List<Pair<Key, Value>> list) {
 		heapify(list);
 		
 		List<Value> sortedList = new ArrayList<Value>(); 
-		for (int i = 0; i< list.size(); i++) 
+		for (int i = 0; i < list.size(); i++)
+			sortedList.add(null);
+		for (int i = list.size() - 1; i >= 0; i--) 
+			sortedList.set(i, this.remove().getValue());
+		return sortedList;
+	}
+	
+	public List<Value> sortDescending(List<Pair<Key, Value>> list) {
+		heapify(list);
+		
+		List<Value> sortedList = new ArrayList<Value>(); 
+		
+		for (int i = list.size() - 1; i >= 0; i++) 
 			sortedList.add(this.remove().getValue());
 		return sortedList;
 	}

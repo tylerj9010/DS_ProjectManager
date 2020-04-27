@@ -8,11 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.tylerejohnson.beans.Task;
-import com.tylerejohnson.datastructures.Heap;
-import com.tylerejohnson.datastructures.MaxHeap;
-import com.tylerejohnson.datastructures.Pair;
-import com.tylerejohnson.sorting.HeapSort;
-import com.tylerejohnson.sorting.HeapSortTask;
+import com.tylerejohnson.sorting.HeapSortTaskName;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -44,9 +40,9 @@ public class DsProjectManagerApplication {
 
 		
 		
-		HeapSortTask heap = new HeapSortTask();
+		HeapSortTaskName heap = new HeapSortTaskName();
 		
-		tasks = heap.sortName(tasks);
+		tasks = heap.sortNameAscending(tasks);
 		System.out.println(tasks.toString());
 		
 		
