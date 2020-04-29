@@ -17,9 +17,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /*TeamMember Model*/
+
 @Entity
 @Table(name = "teammember")
 public class TeamMember {
+	
+	/*class attributes annotated with JPA*/
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +44,15 @@ public class TeamMember {
 	@Column(name = "email")
 	private String email;
 
+	/*defines table relationships*/
+	
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE},
 			mappedBy = "teamMembers")
 	private Set<Project> projects = new HashSet<>();
 
+	/*constructors*/
+	
 	public TeamMember() {
 		super();
 	}
@@ -69,7 +76,7 @@ public class TeamMember {
 		this.projects = projects;
 	}
 
-	
+	/*getters and setters*/
 
 	public long getId() {
 		return id;

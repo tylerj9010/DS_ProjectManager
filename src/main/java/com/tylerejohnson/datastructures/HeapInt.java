@@ -1,4 +1,7 @@
-/** BASIC INT HEAP **/
+/* BASIC INT HEAP */
+/*unused
+ *but i thought i would leave it in as it was my first heap
+  	implementation before switching to generic pairs*/ 
 
 
 package com.tylerejohnson.datastructures;
@@ -87,12 +90,10 @@ public class HeapInt {
 		return (index - 1) / 2;
 	}
 	
-	/**/
 	private int left(int index) {
 		return index * 2 + 1;
 	}
 	
-	/**/
 	private int right(int index) {
 		return index * 2 + 2; 
 	}
@@ -101,7 +102,6 @@ public class HeapInt {
 		return heap[left(index)];
 	}
 	
-	/**/
 	private int rightVal(int index) {
 		return heap[right(index)];
 	}

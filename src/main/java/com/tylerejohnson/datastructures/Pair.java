@@ -1,5 +1,7 @@
-/**PAIR CLASS TO HOLD <KEY, TASK> for heap**/
 package com.tylerejohnson.datastructures;
+
+/*Pair*/
+/*used to hold <KEY, Value> for heap*/
 
 public class Pair<Key extends Comparable<Key>, Value> {
 	Key key;

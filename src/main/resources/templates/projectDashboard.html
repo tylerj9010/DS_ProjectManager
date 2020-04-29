@@ -18,8 +18,10 @@
 				<a id="edit-project" th:href="@{/editproject/{id}(id=${project.projectId})}">Edit current project</a>
 				<a id="delete-project" th:href="@{/deleteproject/{id}(id=${project.projectId})}">Delete current project</a>
 				
-				<form action="">
-					<input class="search-bar search-bar-dark" type="text" placeholder="Search.." size=12 name="search">      		
+				<form th:action="@{/project/{id}(id=${project.projectId})}">
+					<input class="search-bar search-bar-dark" type="text" placeholder="Search.." th:value="${search}" size=12 name="search">
+					<p id="clear-search-dark"> <a id="clear-search-dark" th:href="@{/project/{id}(id=${project.projectId})}"> clear search</a> </p>     		
+					
 				</form>
 				<div th:each="currentProject: ${projects}">
 					<a id="project-list" th:text="${currentProject.name}" th:href="@{/project/{id}(id=${currentProject.projectId})}"></a>
@@ -36,6 +38,7 @@
 							<p onclick="openNav()" id="project-name" th:text="${project.name}">Project Name</p>
 							<p id="project-manager" th:text="'Managed by: ' + ${project.teamManager.firstName} +
 								' ' + ${project.teamManager.lastName}">Managed By: </p>
+							<p><a id="new-team-member" href="newteammember">Create new team member</a></p>
 							<p id="project-desc" th:text="${project.description}">Project Description</p>
 						</div>
 						<div class= "project-info-right">
@@ -46,13 +49,14 @@
 					
 					<div class="top-bar" >
 						<div class="top-bar-actions">
-							<form th:object=${project} th:action="@{/project/{id}/newtask(id=${project.projectId})}">
+							<form th:action="@{/project/{id}/newtask(id=${project.projectId})}">
 							
 								<input id="buttons" type="submit" value="New Task" >
 							</form>
-							<form action="@{/project/{projectId}/searchtask/(projectId=${newProject.projectId})}">
-								<input class="search-bar" type="text" placeholder="Search.." name="search">
-				      		</form>
+							<form th:action="@{/project/{id}/tasks(id=${project.projectId})}">
+								<input class="search-bar" type="text" placeholder="Search.." th:value="${search}" name="search"><br/>  
+								<a id="clear-search" th:href="@{/project/{id}(id=${project.projectId})}"> clear search</a>   		
+							</form>
 						</div>
 					</div>
 					
@@ -70,7 +74,7 @@
 					</colgroup>
 					<thead>
 						<tr>
-							<th><a th:href="@{/project/{id}/sort/name(id=${project.projectId})}"> To Do </a></th>
+							<th><a th:href="@{/project/{id}/sort/name(id=${project.projectId})}">Name</a></th>
 							<th> Finished </th>
 							<th><a th:href="@{/project/{id}/sort/owner(id=${project.projectId})}"> Owner </a></th>
 							<th><a th:href="@{/project/{id}/sort/duedate(id=${project.projectId})}"> Due </a></th>
@@ -78,23 +82,32 @@
 						</tr>
 					</thead>
 						<tbody>
-						<tr id="t-row" th:each="currentTask: ${tasks}">
-							<td class="table-name" th:text="${currentTask.name}">to do</td>
-							<td id="to-do">To Do</td>
+						<tr id="t-row" th:each="currentTask: ${tasksUn}">
+							<td ><a class="table-name" th:text="${currentTask.name}" th:href="@{/project/{id}/edittask/{tId}(id=${project.projectId}, tId=${currentTask.id})}"></a></td>
+							<td id="to-do"><a id="to-do" th:href="@{/markfinished/{id}(id=${currentTask.id}, projectId=${project.projectId})}">To Do</a></td>
 							<td th:text="${currentTask.teamMember.firstName} + ' ' + ${currentTask.teamMember.lastName}">to do</td>
-							<td id="to-do" th:text="${#dates.format(currentTask.targetDate, 'MMM-dd-yy')}">April 28th</td>
+							<td th:text="${#dates.format(currentTask.targetDate, 'MMM-dd-yy')}">April 28th</td>
 							<td th:text="${currentTask.priority}">priority</td>
 						</tr>
 					</tbody>
 					<thead>
 						<tr>
-							<th>Finished</th>
+							<th>Name</th>
 							<th>Finished</th>
 							<th>Owner</th>
 							<th>Due</th>
 							<th>Priority</th>
 						</tr>
 					</thead>
+					<tbody>
+						<tr id="t-row" th:each="currentTask: ${tasksF}">
+							<td ><a class="table-name" th:text="${currentTask.name}" th:href="@{/project/{id}/edittask/{tId}(id=${project.projectId}, tId=${currentTask.id})}"></a></td>
+							<td id="to-do"><a id="to-do" th:href="@{/markunfinished/{id}(id=${currentTask.id}, projectId=${project.projectId})}">Complete</a></td>
+							<td th:text="${currentTask.teamMember.firstName} + ' ' + ${currentTask.teamMember.lastName}">to do</td>
+							<td th:text="${#dates.format(currentTask.targetDate, 'MMM-dd-yy')}">April 28th</td>
+							<td th:text="${currentTask.priority}">priority</td>
+						</tr>
+					</tbody>
 					
 					</table>
 				</div>

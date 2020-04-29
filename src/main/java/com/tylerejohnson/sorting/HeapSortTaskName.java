@@ -6,6 +6,9 @@ import java.util.List;
 import com.tylerejohnson.beans.Task;
 import com.tylerejohnson.datastructures.Pair;
 
+/*Heap Sort subclass*/
+/*sorts based on name of task*/
+
 public class HeapSortTaskName extends HeapSort<String, Task> {
 	
 	public List<Task> sortNameAscending(List<Task> tasks) {

@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AuditModel implements Serializable {
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dateCreated", nullable = false)
 	@CreatedDate

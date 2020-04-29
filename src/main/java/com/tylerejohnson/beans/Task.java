@@ -19,10 +19,12 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /*Task model*/
+
 @Entity
 @Table(name = "task")
 public class Task {
 
+	/*class attributes annotated with JPA*/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_taskId")
@@ -49,6 +51,11 @@ public class Task {
 	@Column(name = "targetDate")
 	private Date targetDate;
 	
+	@Column(name = "finished")
+	private Boolean finished;
+	
+	/*defines table relationships*/
+	
 	@ManyToOne
 	@JoinColumn(name = "FK_projectId", nullable = false)
 	private Project project;
@@ -57,12 +64,9 @@ public class Task {
 	@JoinColumn(name = "FK_teamMemberId", nullable = false)
 	private TeamMember teamMember;
 	
-	public Task() {
-	}
+	/*constructors*/
 	
-	public Task(int id, String name) {
-		this.id = id;
-		this.name = name;
+	public Task() {
 	}
 	
 	public Task(@NotNull @Size(max = 100) String name, @NotNull @Size(max = 600) String description,
@@ -87,6 +91,8 @@ public class Task {
 		this.project = project;
 		this.teamMember = teamMember;
 	}
+	
+	/*getters and setters*/
 
 	public long getId() {
 		return id;
@@ -128,6 +134,14 @@ public class Task {
 		this.targetDate = dateTarget;
 	}
 
+	public Boolean getFinished() {
+		return finished;
+	}
+
+	public void setFinished(Boolean finished) {
+		this.finished = finished;
+	}
+
 	public Project getProject() {
 		return project;
 	}
@@ -144,6 +158,8 @@ public class Task {
 		this.teamMember = teamMember;
 	}
 
+	/*toString override*/
+	
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority

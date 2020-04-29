@@ -63,16 +63,12 @@ function validateTask() {
 		return false;
 	}
 	
-	if (inPri != "High" || inPri != "Medium" || inPri != "Low") {
-		return false;
-	}
 	
 	if (!validNotNull(inDate) || !validLength(inDate, 100) || !validNaN(inDate)) {
 		return false;
 	}
 	
-	alert("PASSED");
-	return false;
+	return true;
 }
 
 function validLength(inVal, inLength) {

@@ -6,8 +6,13 @@ import java.util.List;
 import com.tylerejohnson.datastructures.Heap;
 import com.tylerejohnson.datastructures.Pair;
 
+
+/*Heap Sort*/
+/*Sorting algorithm*/
+
 public class HeapSort<Key extends Comparable<Key>, Value> extends Heap<Key, Value>{
 
+	/*sorting which sorts in ascending order*/
 	public List<Value> sortAscending(List<Pair<Key, Value>> list) {
 		heapify(list);
 		
@@ -19,6 +24,7 @@ public class HeapSort<Key extends Comparable<Key>, Value> extends Heap<Key, Valu
 		return sortedList;
 	}
 	
+	/*sorting which sorts in descending order*/
 	public List<Value> sortDescending(List<Pair<Key, Value>> list) {
 		heapify(list);
 		
@@ -29,6 +35,7 @@ public class HeapSort<Key extends Comparable<Key>, Value> extends Heap<Key, Valu
 		return sortedList;
 	}
 	
+	/*recursive method which takes a list and returns a list that follows heap rules*/
 	private void heapify(List<Pair<Key, Value>> list) {
 		int lastParent = list.size() / 2 - 1;
 		for (int i = lastParent; i >= 0; i--) 
@@ -55,12 +62,14 @@ public class HeapSort<Key extends Comparable<Key>, Value> extends Heap<Key, Valu
 		heapify(list, larger);
 	}
 	
+	/*swap method*/
 	private void swap(List<Pair<Key, Value>> list, int first, int second) {
 		Pair<Key, Value> temp = list.get(first);
 		list.set(first, list.get(second));
 		list.set(second, temp);
 	}
 	
+	/*compares two keys*/
 	private boolean compare(Key key, Key key2) {
 		return key.compareTo(key2) > 0;
 	}

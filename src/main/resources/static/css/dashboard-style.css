@@ -15,6 +15,7 @@ body {
 	padding: 0;
 	font-family: 'Roboto', sans-serif;
 	background-color: #ebedee;
+	font-size: 1.2rem;
 	
 }
 
@@ -44,6 +45,7 @@ body {
 }
 .projects {
 	margin: 1rem 2rem;
+	margin-top: 5rem;
 }
 .projects p{
 	margin: 0;
@@ -131,6 +133,23 @@ box-shadow: 0 1px 2px 0 rgba(51,61,78,.2);
 	padding: 0;
 }
 
+#clear-search-dark {
+	color: #979797;
+	font-size: 1rem;
+	text-decoration: none;
+	margin-bottom: 3rem;
+}
+#clear-search-dark:hover {
+	color: white;
+}
+#clear-search {
+	color: #979797;
+	font-size: 1rem;
+	text-decoration: none;
+}
+#clear-search:hover {
+	color: #009aff;
+}
 
 #project-name {
 	width: 70%;
@@ -154,6 +173,11 @@ box-shadow: 0 1px 2px 0 rgba(51,61,78,.2);
 #project-desc {
 	font-weight: 300;
 	font-size: 1.2rem;
+}
+
+th a {
+	text-decoration: none;
+	color: #009aff;
 }
 
 .top-bar {
@@ -208,9 +232,16 @@ table tr:nth-child(even) {
 	
 }
 
-.table-name:hover {
+.table-name {
+	text-decoration: none;
 	transition: 0.2s;
 	color: #1680c5;
+	
+}
+
+.table-name:hover {
+	transition: 0.2s;
+	color: #333;
 	
 }
 .task-table thead {
@@ -253,19 +284,26 @@ table tr:nth-child(even) {
 	border-bottom: 1px solid #717fb7;
 }
 
+#new-team-member {
+	font-size: 1rem;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	color: gray;
+}
+
 .search-bar-dark {
 	color: white;
 	background-color: #232930 ;
 }
 .search-bar-dark::placeholder {
-	color: #d6d6d6;
+	color: #979797;
 }
 
+#to-do {
 
-
-
-
-
+	color: #333;
+}
 
 
 

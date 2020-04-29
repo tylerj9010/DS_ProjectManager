@@ -1,53 +1,33 @@
 package com.tylerejohnson;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.tylerejohnson.beans.Task;
-import com.tylerejohnson.sorting.HeapSortTaskName;
+/*****************************************************
+ * Name: Data Structures Final Project
+ * Author: Tyler Johnson
+ * Finished: 04/28/2020
+ * Version: 1.0
+ * OS: Windows 10
+ * Copyright: This is my own original work based on
+ *              specifications issued by our instructor
+ * Description: A project manager that utilizes spring boot to allow users to add projects, tasks, and team members,
+ * 				it also has two data structures implemented, a queue and a heap, as well as a sorting algorithm, heap sort.
+ * Academic Honesty: I attest that this is my original work.
+ *              I have not used unauthorized source code, either modified or
+ *              unmodified. I have not given other fellow student(s) access to
+ *              my program.
+ *****************************************************/
 
 @SpringBootApplication
 @EnableJpaAuditing
 public class DsProjectManagerApplication {
 
 	public static void main(String[] args) {
-//		tester();
 		SpringApplication.run(DsProjectManagerApplication.class, args);
 	}
-	
-	public static void tester() {
-		
-		Task task1 = new Task(5, "a");
-		Task task2 = new Task(3, "d");
-		Task task3 = new Task(8, "b");
-		Task task4 = new Task(4, "f");
-		Task task5 = new Task(1, "c");
-		Task task6 = new Task(2, "e");
-		
-		List<Task> tasks = new ArrayList<>();
-		tasks.add(task1);
-		tasks.add(task2);
-		tasks.add(task3);
-		tasks.add(task4);
-		tasks.add(task5);
-		tasks.add(task6);
-		
-		/*REPO ENDS*/
 
-		
-		
-		HeapSortTaskName heap = new HeapSortTaskName();
-		
-		tasks = heap.sortNameAscending(tasks);
-		System.out.println(tasks.toString());
-		
-		
-		
-	}
 	
 }
 

@@ -13,39 +13,22 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.tylerejohnson.beans.TeamMember;
 import com.tylerejohnson.repository.TeamMemberRepository;
 
+/*Team Member Controller*/
+
 @Controller
 public class TeamMemberController {
 
+	/*Auto wired repositories for accessing DB*/
 	@Autowired
 	TeamMemberRepository repo;
 	
-	@GetMapping({"/viewAllTeamMembers"})
-	public String viewAllTeamMembers(Model model) {
-		if(repo.findAll().isEmpty()) {
-			return inputTeamMember(model);
-		}
-		model.addAttribute("teamMembers", repo.findAll());
-		return "results";
-	}
+	/*basic CRUD operations*/
 	
-	@GetMapping("/inputTeamMember")
+	@GetMapping("/newteammember")
 	public String inputTeamMember(Model model) {
 		TeamMember tm = new TeamMember();
 		model.addAttribute("newTeamMember", tm);
 		return "createteammember";
-	}
-	
-//	@PostMapping("/inputTeamMember")
-//	public String createTeamMember(@ModelAttribute TeamMember tm, Model model) {
-//		repo.save(tm);
-//		return viewAllTeamMembers(model);
-//	}
-	
-	@GetMapping("/editTeamMember/{id}")
-	public String showTeamMemberToUpdate(@PathVariable("id") long id, Model model) {
-		TeamMember tm = repo.findById(id).orElse(null);
-		model.addAttribute("newTeamMember", tm);
-		return "input";
 	}
 	
 	@PostMapping("/updateTeamMember/{id}")
@@ -54,11 +37,27 @@ public class TeamMemberController {
 		return new RedirectView("/");
 	}
 	
-	@GetMapping("/deleteTeamMember/{id}")
-	public String deleteUser(@PathVariable("id") long id, Model model) {
-		TeamMember tm = repo.findById(id).orElse(null);
-	    repo.delete(tm);
-	    return viewAllTeamMembers(model);
-	}
+	/*did not have time to add non MVP item of editing team members*/
+	
+//	@PostMapping("/inputTeamMember")
+//	public String createTeamMember(@ModelAttribute TeamMember tm, Model model) {
+//		repo.save(tm);
+//		return viewAllTeamMembers(model);
+//	}
+	
+//	@GetMapping("/editTeamMember/{id}")
+//	public String showTeamMemberToUpdate(@PathVariable("id") long id, Model model) {
+//		TeamMember tm = repo.findById(id).orElse(null);
+//		model.addAttribute("newTeamMember", tm);
+//		return "input";
+//	}
+	
+	
+//	@GetMapping("/deleteTeamMember/{id}")
+//	public String deleteUser(@PathVariable("id") long id, Model model) {
+//		TeamMember tm = repo.findById(id).orElse(null);
+//	    repo.delete(tm);
+//	    return viewAllTeamMembers(model);
+//	}
 }
 

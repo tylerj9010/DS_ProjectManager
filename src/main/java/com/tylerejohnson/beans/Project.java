@@ -27,10 +27,15 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /*Project Model*/
+/*Extends audit model to allow for date created field
+ 	to be automatically populated when created*/
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "project")
 public class Project extends AuditModel{
+	
+	/*class attributes annotated with JPA*/
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +58,11 @@ public class Project extends AuditModel{
 	@Column(name = "dateTarget")
 	private Date dateTarget;
 	
-	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dateFinished")
 	private Date dateFinished;
+	
+	/*defines table relationships*/
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "FK_teamManagerId", nullable = false)
@@ -71,7 +77,9 @@ public class Project extends AuditModel{
 	
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Task> tasks = new ArrayList<>();
-
+	
+	/*constructors*/
+	
 	public Project() {
 		super();
 	}
@@ -103,6 +111,8 @@ public class Project extends AuditModel{
 		this.teamMembers = teamMembers;
 	}
 
+	/*getters and setters*/
+	
 	public long getProjectId() {
 		return projectId;
 	}
@@ -126,7 +136,6 @@ public class Project extends AuditModel{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 
 	public Date getDateTarget() {
 		return dateTarget;
@@ -160,6 +169,8 @@ public class Project extends AuditModel{
 		this.teamMembers = teamMembers;
 	}
 
+	/*toString override*/
+	
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", name=" + name + ", description=" + description + ", dateCreated="

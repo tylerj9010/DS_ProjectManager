@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Edit A Task</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<script type="text/javascript" src="/js/src/validate.js"></script>
+</head>
+
+
+<body>
+<div class="container">
+<div class="form-label">
+<div class="label-for-form"><p>
+Edit a task</p>
+<a id="delete-task"th:href="@{/deletetask/{id}(id=${newTask.id})}">delete</a>
+<p id="small-label-for-form"></p>
+</div>
+	<fieldset>
+		<form 
+			class="form-body"
+			th:object="${newTask}" 
+			th:action="@{/projects/{projectId}/tasks/{id}(projectId=${newTask.project.projectId}, id=${newTask.id})}"
+			method=POST
+			autocomplete="off"
+			onsubmit="return validateTask()">
+				<input id="task-name" name="name" size="20" th:field="*{name}" placeholder="Task name"><br />
+				<label for="description">Description</label>
+				<input id="task-desc" name="description" size="20" th:field="*{description}" placeholder="Give your task a description"><br />
+				<label for="targetDate">Target date</label>
+				<input id="task-date"
+				type="date" name="targetDate" value="test"
+				size="20" th:field="*{targetDate}" 
+				onchange="document.getElementById('task-date').style.color='#333'" ><br/>
+				
+				<label for="priority">Priority</label>
+				<select id="task-priority" th:field="*{priority}" required>
+				
+				 	<option value="" selected disabled hidden=true>Pick the task priority</option>
+				 	
+					<option value="Low">Low</option>
+					<option value="Medium">Medium</option>
+					<option value="High">High</option>
+					
+				</select>
+				<label for="teamManager">Task Owner</label>
+				<select id="task-manager" th:field="*{teamMember}" required>
+				
+				 	<option value="" selected disabled hidden=true>Pick who will do this task</option>
+				 	
+					<option th:each="currentManager: ${teamManagers}" 
+						th:value="${currentManager.id}"
+						th:text="${currentManager.firstName} + ${currentManager.LastName}">
+					</option>
+					
+				</select>
+			
+				
+				<div class="links">		
+				<a class="cancel-link" href="/">Cancel</a>
+				<input class="submit-form" name="Submit" type="submit" value="Submit" />
+				</div>
+		</form>
+		
+	</fieldset>
+</div>
+</div>
+
+</body>
+</html>

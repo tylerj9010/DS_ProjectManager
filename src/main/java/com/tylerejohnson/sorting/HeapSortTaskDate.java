@@ -7,6 +7,9 @@ import java.util.List;
 import com.tylerejohnson.beans.Task;
 import com.tylerejohnson.datastructures.Pair;
 
+/*Heap Sort subclass*/
+/*sorts based on date*/
+
 public class HeapSortTaskDate extends HeapSort<Date, Task>{
 
 public List<Task> sortDateAscending(List<Task> tasks) {

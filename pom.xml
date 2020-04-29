@@ -11,6 +11,8 @@
 	<groupId>com.tylerejohnson</groupId>
 	<artifactId>DS_ProjectManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging> jar </packaging>
+
 	<name>DS_ProjectManager</name>
 	<description>Project Management Application Data Structures</description>
 
@@ -60,6 +62,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <scope>provided</scope>
+</dependency>
 		
 	</dependencies>
 

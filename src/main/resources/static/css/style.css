@@ -14,6 +14,7 @@ body {
   	display:flex;
   	margin: 0;
   	padding: 0;
+  	font-size: 1.5rem;
 
 }
 
@@ -37,7 +38,7 @@ body {
 .label-for-form p{
 	font-family: 'Raleway', sans-serif;
 	font-weight: 300;
-	font-size: 40px;
+	font-size: 3rem;
 	margin: 0;
 	text-align: center;
 	vertical-align: middle;
@@ -45,7 +46,7 @@ body {
 }
 #small-label-for-form {
 	width: 50%;
-	font-size: 1rem;
+	font-size: 1.5rem;
 }
 
 .form-body {
@@ -73,7 +74,7 @@ body {
 	padding: 10px 24px;
 	margin: 2rem 0 0 0;
 	align-self: flex-end;
-	font-size: 14px;
+	font-size: 1rem;
 }
 .submit-form:hover {
 	box-shadow:  3px 3px 6px #cecece, 
@@ -81,18 +82,18 @@ body {
 	
 	outline: none;
 	border: 0;
-	background-color: #717fb7;
+	background-color: #009aff;;
 	color: white;
 }
 .cancel-link:hover {
-	color: #565e80;
+	color: #009aff;
 }
 .links {
 	display: flex;
 	flex-direction: row-reverse;
 }
 .cancel-link {
-	font-size: 14px;
+	font-size: 1rem;
 	order: 1;
 	color: #333;
 	width: 20%;
@@ -120,7 +121,7 @@ fieldset input {
 fieldset input:focus, textarea:focus {
 	box-shadow: none;
 	outline: none;
-	border-bottom: 1px solid #717fb7;
+	border-bottom: 1px solid #009aff;;
 }
 
 input::placeholder {
@@ -155,14 +156,20 @@ select:focus{
 }
 
 
-#project-name {
-	font-size: 1.5rem;
+
+#project-name, #task-name{
+	font-size: 1.6rem;
 	margin-bottom: 1.8rem;
 }
 
 #project-date {
 	color: gray;
 }
+
+input[type='text'] {
+	font-size: 1.3rem;
+}
+
 
 input, select{
 	font-family: 'Roboto', sans-serif;
@@ -172,7 +179,10 @@ input, select{
 	margin-bottom: 1rem;
 }
 
-
+#delete-task {
+	text-decoration: none;
+	color: #009aff;
+}
 
 
 

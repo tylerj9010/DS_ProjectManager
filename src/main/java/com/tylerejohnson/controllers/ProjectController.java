@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tylerejohnson.beans.Project;
 import com.tylerejohnson.beans.Task;
@@ -21,11 +22,16 @@ import com.tylerejohnson.repository.TeamMemberRepository;
 import com.tylerejohnson.sorting.HeapSortTaskName;
 import com.tylerejohnson.sorting.HeapSortTaskOwner;
 import com.tylerejohnson.sorting.HeapSortTaskPriority;
+import com.tylerejohnson.sorting.Filter;
 import com.tylerejohnson.sorting.HeapSortTaskDate;
+
+/*Project Controller*/
 
 @Controller
 public class ProjectController {
 
+	/*Auto wired repositories for accessing DB*/
+	
 	@Autowired
 	ProjectRepository repo;
 	@Autowired
@@ -33,6 +39,10 @@ public class ProjectController {
 	@Autowired
 	TaskRepository taskRepo;
 	
+	/*controller methods for CRUD operations which use '@GetMapping' in order 
+	 	to route to proper method and HTML page*/
+	
+	/*routes to page showing first project in DB*/
 	@GetMapping("/projects")
 	public String viewAllProjects(Model model) {
 		if(repo.findAll().isEmpty()) {
@@ -42,29 +52,84 @@ public class ProjectController {
 		l = repo.findAll();
 		long id = l.get(0).getProjectId();
 		
-		return viewProject(id, model);
+		return viewProject(id, model, null);
 	}
-
 	
+	/*uses path variable to show the correct project
+	 *has optional path variable for search implementation of projects
+	 *sorts tasks based on if finished or not and add lists to model
+	 *returns user to project dashboard*/
 	@GetMapping("/project/{projectId}")
-	public String viewProject(@PathVariable("projectId") long id, Model model) {
+	public String viewProject(@PathVariable("projectId") long id, Model model,
+			@RequestParam (value = "search", required = false) String s) {
+		
 		if(!repo.existsById(id)) {
 			return createProject(model);
 		}
 		
 		Project p = repo.findById(id).orElse(null);
 		model.addAttribute("project", p);
+		
 		List<Project> ps = repo.findAll();
+		List<Task> tu = taskRepo.findByProject(p);
+		List<Task> tf = taskRepo.findByProject(p);
+		
+		tu = Filter.filterTasksUnfinished(tu);
+		tf = Filter.filterTasksFinished(tf);
+		
 		ps.remove(p);
+		
+		if(s != null)
+			ps = Filter.filterProjects(ps, s);
+		
 		model.addAttribute("projects", ps);
-		List<Task> t = taskRepo.findByProject(p);
-		
-		
-		
-		model.addAttribute("tasks", t);
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
 		return "projectDashboard";
 	}
 	
+	/*uses path variable to show the correct project
+	 *very similar to last method but used for searching for tasks instead of projects
+	 *has optional path variable for search implementation of tasks
+	 *sorts tasks based on if finished or not and add lists to model
+	 *returns user to project dashboard*/
+	@GetMapping("/project/{projectId}/tasks")
+	public String viewProjectTasks(@PathVariable("projectId") long id, Model model,
+			@RequestParam (value = "search", required = false) String st) {
+		
+		System.out.println("HERE");
+		
+		if(!repo.existsById(id)) {
+			return createProject(model);
+		}
+		
+		Project p = repo.findById(id).orElse(null);
+		model.addAttribute("project", p);
+		
+		List<Project> ps = repo.findAll();
+		List<Task> tu = taskRepo.findByProject(p);
+		List<Task> tf = taskRepo.findByProject(p);
+		
+		tu = Filter.filterTasksUnfinished(tu);
+		tf = Filter.filterTasksFinished(tf);
+		
+		ps.remove(p);
+		if(st != null) {
+			tu = Filter.filterTasks(tu, st);
+			tf = Filter.filterTasks(tf, st);
+		}
+		
+		
+		model.addAttribute("projects", ps);
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
+		return "projectDashboard";
+	}
+	
+	/*uses path variable to show the correct project
+	 *uses path variable to sort tasks
+	 *sorts tasks based on if finished or not and add lists to model
+	 *returns user to project dashboard*/
 	@GetMapping("/project/{projectId}/sort/{sortState}")
 	public String viewProjectSort(@PathVariable("projectId") long id,
 			@PathVariable("sortState") String sortState, Model model) {
@@ -73,52 +138,74 @@ public class ProjectController {
 		}
 		
 		Project p = repo.findById(id).orElse(null);
-		model.addAttribute("project", p);
 		List<Project> ps = repo.findAll();
+		
 		ps.remove(p);
+		model.addAttribute("project", p);
 		model.addAttribute("projects", ps);
-		List<Task> t = taskRepo.findByProject(p);
+		
+		List<Task> tu = taskRepo.findByProject(p);
+		List<Task> tf = taskRepo.findByProject(p);
+		
+		tu = Filter.filterTasksUnfinished(tu);
+		tf = Filter.filterTasksFinished(tf);
 		
 		/*sort switch*/
+		/*based on path variable a method is called to sort using heap sort*/
 		switch (sortState) {
-			case "name": sortName(model, t);
+			case "name": sortName(model, tu, tf);
 				break;
-			case "owner": sortOwner(model, t);
+			case "owner": sortOwner(model, tu, tf);
 				break;
-			case "duedate": sortDueDate(model, t);
+			case "duedate": sortDueDate(model, tu, tf);
 				break;
-			case "priority": sortPriority(model, t);
+			case "priority": sortPriority(model, tu, tf);
 				break;
-			default: return viewProject(id, model);
-				
+			default: return viewProject(id, model, null);
 		}
-		
 		
 		return "projectDashboard";
 	}
-	private void sortName(Model model, List<Task> t) {
-		System.out.println("TEST");
+	
+	/*next four private methods are used to create instance of a heap sort subclass used to sort passed on given parameter*/
+	
+	private void sortName(Model model, List<Task> tu,  List<Task> tf) {
 		HeapSortTaskName heap = new HeapSortTaskName();
-		t = heap.sortNameAscending(t);
-		model.addAttribute("tasks", t);
+		tu = heap.sortNameAscending(tu);
+		tf = heap.sortNameAscending(tf);
+		
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
 	}
-	private void sortOwner(Model model, List<Task> t) {
+	
+	private void sortOwner(Model model, List<Task> tu,  List<Task> tf) {
 		HeapSortTaskOwner heap = new HeapSortTaskOwner();
-		t = heap.sortOwnerAscending(t);
-		model.addAttribute("tasks", t);
+		tu = heap.sortOwnerAscending(tu);
+		tf = heap.sortOwnerAscending(tf);
+		
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
 	}
-	private void sortDueDate(Model model, List<Task> t) {
+	
+	private void sortDueDate(Model model, List<Task> tu,  List<Task> tf) {
 		HeapSortTaskDate heap = new HeapSortTaskDate();
-		t = heap.sortDateAscending(t);
-		model.addAttribute("tasks", t);
+		tu = heap.sortDateAscending(tu);
+		tf = heap.sortDateAscending(tf);
+		
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
 	}
-	private void sortPriority(Model model, List<Task> t) {
+	
+	private void sortPriority(Model model, List<Task> tu,  List<Task> tf) {
 		HeapSortTaskPriority heap = new HeapSortTaskPriority();
-		t = heap.sortPriorityAscending(t);
-		model.addAttribute("tasks", t);
+		tu = heap.sortPriorityAscending(tu);
+		tf = heap.sortPriorityAscending(tf);
+		
+		model.addAttribute("tasksUn", tu);
+		model.addAttribute("tasksF", tf);
 	}
 	
-	
+	/*basic CRUD operations*/
 	
 	@GetMapping("/newproject")
 	public String createProject(Model model) {
@@ -149,9 +236,5 @@ public class ProjectController {
 		Project p = repo.findById(id).orElse(null);
 		repo.delete(p);
 		return viewAllProjects(model);
-	}
-	@GetMapping("/project/2?search=22")
-	public String search() {
-		return "";
 	}
 }

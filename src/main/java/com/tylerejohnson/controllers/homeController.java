@@ -8,8 +8,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.tylerejohnson.repository.TeamMemberRepository;
 
+/*Home controller*/
+/*used for mapping '/error' and '/'*/
+
 @Controller
-public class homeController {
+public class HomeController {
 
 	@Autowired
 	TeamMemberRepository teamRepo;
@@ -17,7 +20,7 @@ public class homeController {
 	@GetMapping("/")
 	public RedirectView home(Model model) {
 		if (teamRepo.findAll().isEmpty())
-			return new RedirectView("/inputTeamMember");
+			return new RedirectView("/newteammember");
 		return new RedirectView("/projects");
 	}
 	
